@@ -16,7 +16,7 @@ timezone:
 
 title: Nitin Jadhav # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: My personal blog # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -34,8 +34,8 @@ twitter:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
+  name: Nitin Jadhav
+  email: nitinjadhavpostgres@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/username # change to your Twitter homepage
@@ -98,7 +98,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: https://media.licdn.com/dms/image/v2/D5603AQERdUJ5m5sehA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1726422845302?e=1732752000&v=beta&t=nDAqytqEXvqnx7kaBOH7eDuTre_p7Rn5umUYtDgFnhM
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
