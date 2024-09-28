@@ -1,5 +1,6 @@
 ---
-layout: archives
-icon: fas fa-archive
+layout: blog
+icon: fas fa-blog 
 order: 1
+
 ---

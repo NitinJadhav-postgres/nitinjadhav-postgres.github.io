@@ -8,3 +8,10 @@ pin: true
 math: true
 mermaid: true
 ---
+
+Previously psql obtained the value of PGUSER twice to display
+a default user in its help message.
+
+Author: Kota Miyake
+Reviewed-by: Nitin Jadhav, Fujii Masao
+Discussion: https://postgr.es/m/2a3c612babdd6ed63a9d877bb575d793@oss.nttdata.com

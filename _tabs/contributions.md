@@ -1,5 +1,6 @@
 ---
 layout: contributions
-icon: fas fa-archive
+layout: contributions
+icon: fas fa-code-branch
 order: 3
 ---

@@ -1,5 +1,6 @@
 ---
 layout: talks
-icon: fas fa-archive
+icon: fas fa-microphone
 order: 2
 ---
+
