@@ -10,7 +10,7 @@ layout: page
 
 <p>Here are the list of talks I have presented at the PostgreSQL conference.</p>
 
-<div id="" class="pl-xl-3">
+<div class="pl-xl-3">
   {% assign last_year = nil %}
   {% for post in site.posts %}
     {% if post.section == "talks" %}
@@ -19,38 +19,36 @@ layout: page
       {% if cur_year != last_year %}
         {% unless forloop.first %}</ul>{% endunless %}
 
-        <h2 class="year display-10 mt-5">{{ cur_year }}</h2>
+        <h2 class="year display-10 mt-5" style="text-decoration: underline;">{{ cur_year }}</h2>
         <ul class="list-unstyled">
-        <hr class="my-4" style="border-top: 3px double #8c8b8b;">
         
         {% assign last_year = cur_year %}
       {% endif %}
-
-      <li class="mb-5">
-        {% assign ts = post.date | date: '%s' %}
-        <div class="d-flex flex-column flex-md-row align-items-start mb-3">
-            <div class="me-md-4 mb-2 mb-md-0">
-              <span class="date day badge bg-warning text-dark p-2" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
-              <span class="date month small text-dark ms-2 badge bg-warning p-2">{{ post.date | date: df_strftime_m }}</span>
-            </div>
-          <div>
-            <h5 class="mb-1">{{ post.title }}</h5>
-            <div class="d-flex flex-wrap">
-                <a href="{{ post.scheduleurl }}" class="btn btn-primary btn-sm me-2 mb-2" target="_blank">
-                <i class="fas fa-calendar-alt"></i> Schedule
-                </a>
-                <a href="{{ post.slidesurl }}" class="btn btn-secondary btn-sm me-2 mb-2" target="_blank">
-                <i class="fas fa-file-powerpoint"></i> Slides
-                </a>
-                <a href="{{ post.videourl }}" class="btn btn-success btn-sm mb-2" target="_blank">
-                <i class="fas fa-video"></i> Video
-                </a>
-            </div>
-          </div>
+      <li class="mb-4">
+        <h5 class="mb-1"> {{ post.title }}</h5>
+        <div class="d-flex flex-wrap">
+          
+          {% if post.scheduleurl %}          
+            <a href="{{ post.scheduleurl }}" class="" target="_blank">
+          <i class="fas fa-calendar-alt"></i> Schedule
+          </a>
+          <span class="mx-2"></span>
+          {% endif %}
+          {% if post.slidesurl %}
+            <a href="{{ post.slidesurl }}" class="" target="_blank">
+            <i class="fas fa-file-powerpoint"></i> Slides
+            </a>
+            <span class="mx-2"></span>
+          {% endif %}
+          {% if post.videourl %}
+            <a href="{{ post.videourl }}" class="" target="_blank">
+          <i class="fas fa-video"></i> Video
+            </a>
+          {% endif %}
         </div>
-      </li>
-
-      {% if forloop.last %}</ul>{% endif %}
-    {% endif %}
-  {% endfor %}
-</div>
+          </li>
+    
+          {% if forloop.last %}</ul>{% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
