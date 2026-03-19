@@ -5,7 +5,7 @@ date: 2025-11-15
 conference: "Postgres Bangalore (PGBLR) Meetup #7, Bengaluru (India)"
 slidesurl: "https://docs.google.com/presentation/d/1xjS2HgLPYaePCwrVQ_Mya9BX3N6Z4wM7/edit?slide=id.p1#slide=id.p1"
 scheduleurl: "https://www.pgblr.in/archives"
-videourl: 
+videourl: "about:blank"
 section: "talks"
 status: past
 pin: true
