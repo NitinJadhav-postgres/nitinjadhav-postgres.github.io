@@ -1,6 +1,5 @@
 ---
 layout: page
-# The Archives of posts.
 ---
 
 {% include lang.html %}
@@ -8,60 +7,185 @@ layout: page
 {% assign df_strftime_m = site.data.locales[lang].df.archives.strftime | default: '/ %m' %}
 {% assign df_dayjs_m = site.data.locales[lang].df.archives.dayjs | default: '/ MM' %}
 
-<h2>Patches Authored</h2>
+{% assign authored_posts = site.posts | where: "section", "authored" | sort: "date" | reverse %}
+{% assign reviewed_posts = site.posts | where: "section", "reviewed" | sort: "date" | reverse %}
+
+<!-- ✅ IMPORTANT: This wrapper MUST be id="archives" for Chirpy timeline CSS -->
 <div id="archives" class="pl-xl-3">
-  {% for post in site.posts %}
-    {% if post.section == "authored" %}
-      {% assign cur_year = post.date | date: '%Y' %}
 
-      {% if cur_year != last_year %}
-        {% unless forloop.first %}</ul>{% endunless %}
+  <!-- Toggle Buttons -->
+  <div class="mb-3">
+    <button class="btn btn-sm btn-outline-primary" type="button" onclick="showContribView('year')">
+      By Year
+    </button>
+    <button class="btn btn-sm btn-outline-primary" type="button" onclick="showContribView('pg')">
+      By Version
+    </button>
+  </div>
 
-        <time class="year lead d-block">{{ cur_year }}</time>
-        {{ '<ul class="list-unstyled">' }}
+  <!-- ===================== -->
+  <!-- View 1: Group by Year -->
+  <!-- ===================== -->
+  <div id="contrib-view-year">
 
-        {% assign last_year = cur_year %}
-      {% endif %}
+    <h2>Patches Authored</h2>
+    <div class="pl-xl-3">
+      {% assign last_year = nil %}
 
-      <li>
-        {% assign ts = post.date | date: '%s' %}
-        <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
-        <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
-          {{ post.date | date: df_strftime_m }}
-        </span>
-        <a href="{{ post.commiturl }}" target="_blank">{{ post.title }}</a>
-      </li>
+      {% for post in authored_posts %}
+        {% assign cur_year = post.date | date: '%Y' %}
 
-      {% if forloop.last %}</ul>{% endif %}
-    {% endif %}
-  {% endfor %}
+        {% if cur_year != last_year %}
+          {% unless last_year == nil %}</ul>{% endunless %}
+
+          <time class="year lead d-block">{{ cur_year }}</time>
+          <ul class="list-unstyled">
+
+          {% assign last_year = cur_year %}
+        {% endif %}
+
+        <li>
+          {% assign ts = post.date | date: '%s' %}
+          <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
+          <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+            {{ post.date | date: df_strftime_m }}
+          </span>
+
+          {% if post.commiturl %}
+            <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
+          {% else %}
+            {{ post.title }}
+          {% endif %}
+
+          {% if post.pg_version %}
+            <span class="badge bg-light text-dark ms-2">PG{{ post.pg_version }}</span>
+          {% endif %}
+        </li>
+
+        {% if forloop.last %}</ul>{% endif %}
+      {% endfor %}
+    </div>
+
+    <h2 class="mt-5">Patches Reviewed</h2>
+    <div class="pl-xl-3">
+      {% assign last_year = nil %}
+
+      {% for post in reviewed_posts %}
+        {% assign cur_year = post.date | date: '%Y' %}
+
+        {% if cur_year != last_year %}
+          {% unless last_year == nil %}</ul>{% endunless %}
+
+          <time class="year lead d-block">{{ cur_year }}</time>
+          <ul class="list-unstyled">
+
+          {% assign last_year = cur_year %}
+        {% endif %}
+
+        <li>
+          {% assign ts = post.date | date: '%s' %}
+          <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
+          <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+            {{ post.date | date: df_strftime_m }}
+          </span>
+
+          {% if post.commiturl %}
+            <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
+          {% else %}
+            {{ post.title }}
+          {% endif %}
+
+          {% if post.pg_version %}
+            <span class="badge bg-light text-dark ms-2">PG{{ post.pg_version }}</span>
+          {% endif %}
+        </li>
+
+        {% if forloop.last %}</ul>{% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- ================================= -->
+  <!-- View 2: Group by PostgreSQL Version -->
+  <!-- ================================= -->
+  <div id="contrib-view-pg" style="display:none;">
+
+    <h2>Patches Authored</h2>
+    <div class="pl-xl-3">
+      {% assign versions = "" | split: "" %}
+      {% for post in authored_posts %}
+        {% if post.pg_version %}
+          {% assign versions = versions | push: post.pg_version %}
+        {% endif %}
+      {% endfor %}
+      {% assign versions = versions | uniq | sort | reverse %}
+
+      {% for v in versions %}
+        <time class="year lead d-block">   v_{{ v }}</time>
+        <ul class="list-unstyled">
+          {% for post in authored_posts %}
+            {% if post.pg_version == v %}
+              <li>
+                {% assign ts = post.date | date: '%s' %}
+                <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
+                <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+                  {{ post.date | date: df_strftime_m }}
+                </span>
+
+                {% if post.commiturl %}
+                  <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
+                {% else %}
+                  {{ post.title }}
+                {% endif %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </div>
+
+    <h2 class="mt-5">Patches Reviewed</h2>
+    <div class="pl-xl-3">
+      {% assign versions = "" | split: "" %}
+      {% for post in reviewed_posts %}
+        {% if post.pg_version %}
+          {% assign versions = versions | push: post.pg_version %}
+        {% endif %}
+      {% endfor %}
+      {% assign versions = versions | uniq | sort | reverse %}
+
+      {% for v in versions %}
+        <time class="year lead d-block">v_{{ v }}</time>
+        <ul class="list-unstyled">
+          {% for post in reviewed_posts %}
+            {% if post.pg_version == v %}
+              <li>
+                {% assign ts = post.date | date: '%s' %}
+                <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
+                <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
+                  {{ post.date | date: df_strftime_m }}
+                </span>
+
+                {% if post.commiturl %}
+                  <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
+                {% else %}
+                  {{ post.title }}
+                {% endif %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </div>
+
+  </div>
+
 </div>
 
-<h2>Patches Reviewed</h2>
-<div id="archives" class="pl-xl-3">
-  {% for post in site.posts %}
-    {% if post.section == "reviewed" %}
-      {% assign cur_year = post.date | date: '%Y' %}
-
-      {% if cur_year != last_year %}
-        {% unless forloop.first %}</ul>{% endunless %}
-
-        <time class="year lead d-block">{{ cur_year }}</time>
-        {{ '<ul class="list-unstyled">' }}
-
-        {% assign last_year = cur_year %}
-      {% endif %}
-
-      <li>
-        {% assign ts = post.date | date: '%s' %}
-        <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
-        <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
-          {{ post.date | date: df_strftime_m }}
-        </span>
-        <a href="{{ post.commiturl }}" target="_blank">{{ post.title }}</a>
-      </li>
-
-      {% if forloop.last %}</ul>{% endif %}
-    {% endif %}
-  {% endfor %}
-</div>
+<script>
+  function showContribView(which) {
+    document.getElementById('contrib-view-year').style.display = (which === 'year') ? 'block' : 'none';
+    document.getElementById('contrib-view-pg').style.display = (which === 'pg') ? 'block' : 'none';
+  }
+</script>
