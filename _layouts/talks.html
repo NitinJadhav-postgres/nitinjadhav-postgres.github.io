@@ -26,7 +26,7 @@ layout: page
           <!-- Talk title -->
           <h5 class="mb-0">{{ post.title }}</h5>
 
-          <!-- Conference name (linkable) -->
+          <!-- Conference name (linkable via scheduleurl) -->
           {% if post.conference %}
             <div class="fst-italic small mb-1">
               {% if post.scheduleurl %}
@@ -48,25 +48,30 @@ layout: page
               {{ post.date | date: "%b %d, %Y" }}
             </span>
 
-            {% if post.slidesurl or post.videourl %}
-              <span class="mx-2"></span>
-            {% endif %}
+            <span class="mx-2"></span>
 
-            <!-- Slides -->
+            <!-- Slides (link if available, else "coming soon") -->
             {% if post.slidesurl %}
               <a href="{{ post.slidesurl }}" target="_blank" rel="noopener">
                 <i class="fas fa-file-powerpoint"></i> Slides
               </a>
-              {% if post.videourl %}
-                <span class="mx-2"></span>
-              {% endif %}
+            {% else %}
+              <span class="text-muted fst-italic">
+                <i class="fas fa-file-powerpoint"></i> Slides (coming soon)
+              </span>
             {% endif %}
 
-            <!-- Recording -->
+            <span class="mx-2"></span>
+
+            <!-- Recording (link if available, else "coming soon") -->
             {% if post.videourl %}
               <a href="{{ post.videourl }}" target="_blank" rel="noopener">
                 <i class="fas fa-video"></i> Recording
               </a>
+            {% else %}
+              <span class="text-muted fst-italic">
+                <i class="fas fa-video"></i> Recording (coming soon)
+              </span>
             {% endif %}
 
           </div>
@@ -104,7 +109,7 @@ layout: page
         <!-- Talk title -->
         <h5 class="mb-0">{{ post.title }}</h5>
 
-        <!-- Conference name (linkable) -->
+        <!-- Conference name (linkable via scheduleurl) -->
         {% if post.conference %}
           <div class="fst-italic small mb-1">
             {% if post.scheduleurl %}
@@ -126,11 +131,12 @@ layout: page
             {{ post.date | date: "%b %d, %Y" }}
           </span>
 
+          <!-- Separator only if we have at least one link to show -->
           {% if post.slidesurl or post.videourl %}
             <span class="mx-2"></span>
           {% endif %}
 
-          <!-- Slides -->
+          <!-- Slides (only show if available for past talks) -->
           {% if post.slidesurl %}
             <a href="{{ post.slidesurl }}" target="_blank" rel="noopener">
               <i class="fas fa-file-powerpoint"></i> Slides
@@ -140,7 +146,7 @@ layout: page
             {% endif %}
           {% endif %}
 
-          <!-- Recording -->
+          <!-- Recording (only show if available for past talks) -->
           {% if post.videourl %}
             <a href="{{ post.videourl }}" target="_blank" rel="noopener">
               <i class="fas fa-video"></i> Recording
