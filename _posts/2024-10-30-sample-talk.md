@@ -2,6 +2,7 @@
 author: Nitin Jadhav
 title: A deep dive into the file format and internals of write-ahead logging of PostgreSQL
 date: 2024-08-30
+conference: "PGDay Israel 2024, Tel Aviv (Israel)"
 slidesurl: "/assets/files/talks/A deep dive into the file format and internals of write-ahead logging of PostgreSQL.pdf"
 scheduleurl: "https://pgday.org.il/2024/#program"
 videourl: 

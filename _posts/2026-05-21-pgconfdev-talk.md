@@ -2,6 +2,7 @@
 author: Nitin Jadhav
 title: Corruptions in PostgreSQL - Three cases, hard lessons
 date: 2026-05-21
+conference: "PGConf.dev 2026, Vancouver(Canada)"
 slidesurl: 
 scheduleurl: "https://2026.pgconf.dev/schedule/tuesday"
 videourl: 

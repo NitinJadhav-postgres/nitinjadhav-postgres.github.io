@@ -1,6 +1,6 @@
 ---
 layout: page
-# The Archives of posts.
+# Talks page
 ---
 
 {% include lang.html %}
@@ -18,37 +18,57 @@ layout: page
 
   {% if upcoming_talks and upcoming_talks.size > 0 %}
     <h2 class="year display-10 mt-5" style="text-decoration: underline;">Upcoming Talks</h2>
+
     <ul class="list-unstyled">
       {% for post in upcoming_talks %}
         <li class="mb-4">
-          <h5 class="mb-1">{{ post.title }}</h5>
 
-          <div class="d-flex flex-wrap">
+          <!-- Talk title -->
+          <h5 class="mb-0">{{ post.title }}</h5>
+
+          <!-- Conference name (linkable) -->
+          {% if post.conference %}
+            <div class="fst-italic small mb-1">
+              {% if post.scheduleurl %}
+                <a href="{{ post.scheduleurl }}" target="_blank" rel="noopener">
+                  {{ post.conference }}
+                </a>
+              {% else %}
+                <span class="text-muted">{{ post.conference }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <!-- Meta row -->
+          <div class="d-flex flex-wrap align-items-center">
+
+            <!-- Date -->
             <span class="text-muted">
               <i class="fas fa-clock"></i>
               {{ post.date | date: "%b %d, %Y" }}
             </span>
-            <span class="mx-2"></span>
 
-            {% if post.scheduleurl %}
-              <a href="{{ post.scheduleurl }}" target="_blank">
-                <i class="fas fa-calendar-alt"></i> Conference
-              </a>
+            {% if post.slidesurl or post.videourl %}
               <span class="mx-2"></span>
             {% endif %}
 
+            <!-- Slides -->
             {% if post.slidesurl %}
-              <a href="{{ post.slidesurl }}" target="_blank">
+              <a href="{{ post.slidesurl }}" target="_blank" rel="noopener">
                 <i class="fas fa-file-powerpoint"></i> Slides
               </a>
-              <span class="mx-2"></span>
+              {% if post.videourl %}
+                <span class="mx-2"></span>
+              {% endif %}
             {% endif %}
 
+            <!-- Recording -->
             {% if post.videourl %}
-              <a href="{{ post.videourl }}" target="_blank">
+              <a href="{{ post.videourl }}" target="_blank" rel="noopener">
                 <i class="fas fa-video"></i> Recording
               </a>
             {% endif %}
+
           </div>
         </li>
       {% endfor %}
@@ -57,61 +77,84 @@ layout: page
 
 
   <!-- ================= -->
-<!-- Past Talks Section -->
-<!-- ================= -->
+  <!-- Past Talks Section -->
+  <!-- ================= -->
 
-{% assign talks = site.posts | where: "section", "talks" | sort: "date" | reverse %}
-{% assign last_year = nil %}
+  {% assign talks = site.posts | where: "section", "talks" | sort: "date" | reverse %}
+  {% assign last_year = nil %}
 
-<h2 class="year display-10 mt-5" style="text-decoration: underline;">Past Talks</h2>
+  <h2 class="year display-10 mt-5" style="text-decoration: underline;">Past Talks</h2>
 
-{% for post in talks %}
-  {% unless post.status == "upcoming" %}
-    {% assign cur_year = post.date | date: '%Y' %}
+  {% for post in talks %}
+    {% unless post.status == "upcoming" %}
 
-    {% if cur_year != last_year %}
-      {% unless last_year == nil %}</ul>{% endunless %}
+      {% assign cur_year = post.date | date: "%Y" %}
 
-      <h2 class="year display-10 mt-3" style="text-decoration: underline;">{{ cur_year }}</h2>
-      <ul class="list-unstyled">
+      {% if cur_year != last_year %}
+        {% unless last_year == nil %}</ul>{% endunless %}
 
-      {% assign last_year = cur_year %}
+        <h2 class="year display-10 mt-3" style="text-decoration: underline;">{{ cur_year }}</h2>
+        <ul class="list-unstyled">
+
+        {% assign last_year = cur_year %}
+      {% endif %}
+
+      <li class="mb-4">
+
+        <!-- Talk title -->
+        <h5 class="mb-0">{{ post.title }}</h5>
+
+        <!-- Conference name (linkable) -->
+        {% if post.conference %}
+          <div class="fst-italic small mb-1">
+            {% if post.scheduleurl %}
+              <a href="{{ post.scheduleurl }}" target="_blank" rel="noopener">
+                {{ post.conference }}
+              </a>
+            {% else %}
+              <span class="text-muted">{{ post.conference }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <!-- Meta row -->
+        <div class="d-flex flex-wrap align-items-center">
+
+          <!-- Date -->
+          <span class="text-muted">
+            <i class="fas fa-clock"></i>
+            {{ post.date | date: "%b %d, %Y" }}
+          </span>
+
+          {% if post.slidesurl or post.videourl %}
+            <span class="mx-2"></span>
+          {% endif %}
+
+          <!-- Slides -->
+          {% if post.slidesurl %}
+            <a href="{{ post.slidesurl }}" target="_blank" rel="noopener">
+              <i class="fas fa-file-powerpoint"></i> Slides
+            </a>
+            {% if post.videourl %}
+              <span class="mx-2"></span>
+            {% endif %}
+          {% endif %}
+
+          <!-- Recording -->
+          {% if post.videourl %}
+            <a href="{{ post.videourl }}" target="_blank" rel="noopener">
+              <i class="fas fa-video"></i> Recording
+            </a>
+          {% endif %}
+
+        </div>
+      </li>
+
+    {% endunless %}
+
+    {% if forloop.last and last_year != nil %}
+      </ul>
     {% endif %}
+  {% endfor %}
 
-    <li class="mb-4">
-      <h5 class="mb-1">{{ post.title }}</h5>
-
-      <div class="d-flex flex-wrap">
-        <span class="text-muted">
-          <i class="fas fa-clock"></i>
-          {{ post.date | date: "%b %d, %Y" }}
-        </span>
-        <span class="mx-2"></span>
-
-        {% if post.scheduleurl %}
-          <a href="{{ post.scheduleurl }}" target="_blank">
-            <i class="fas fa-calendar-alt"></i> Conference
-          </a>
-          <span class="mx-2"></span>
-        {% endif %}
-
-        {% if post.slidesurl %}
-          <a href="{{ post.slidesurl }}" target="_blank">
-            <i class="fas fa-file-powerpoint"></i> Slides
-          </a>
-          <span class="mx-2"></span>
-        {% endif %}
-
-        {% if post.videourl %}
-          <a href="{{ post.videourl }}" target="_blank">
-            <i class="fas fa-video"></i> Recording
-          </a>
-        {% endif %}
-      </div>
-    </li>
-  {% endunless %}
-
-  {% if forloop.last and last_year != nil %}
-    </ul>
-  {% endif %}
-{% endfor %}
+</div>
