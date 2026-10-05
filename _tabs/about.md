@@ -5,10 +5,10 @@ order: 5
 ---
 
 
-I’m a Senior Software Engineer at Microsoft working on **Azure Database for PostgreSQL**, where I focus on PostgreSQL internals, extension integration, and resolving complex production issues through deep root‑cause analysis in large‑scale, customer‑facing environments.
+I’m a Senior Software Engineer at Microsoft working on **Azure Database for PostgreSQL**. My work focuses on PostgreSQL internals, extension integration, crash recovery, data corruption, performance analysis, and resolving complex production issues in large-scale, customer-facing environments.
 
-Before Microsoft, I worked at **EnterpriseDB**, contributing to PostgreSQL‑based systems and core database features. My work there involved engine‑level development, feature implementation, bug fixing, and close collaboration with the PostgreSQL community.
+I contribute to the PostgreSQL community through upstream patches and code reviews, with my recent work focused on recovery. I also speak at PostgreSQL conferences and recently started writing about PostgreSQL internals and practical debugging techniques.
 
-Earlier in my career at **Toshiba Software**, I worked extensively on **SQLite internals**, building and enhancing database engine functionality for embedded and performance‑critical systems. 
+Before Microsoft, I worked at **EnterpriseDB** on PostgreSQL-based systems and core database features, including engine-level development, feature implementation, bug fixes, and collaboration with the PostgreSQL community.
 
-{: .prompt-tip }
+Earlier in my career at **Toshiba Software**, I worked on **SQLite internals** and developed database-engine functionality for embedded and performance-sensitive systems.
