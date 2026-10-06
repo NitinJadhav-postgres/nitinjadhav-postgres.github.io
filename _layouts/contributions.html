@@ -15,10 +15,22 @@ layout: page
 
   <!-- Toggle Buttons -->
   <div class="mb-3">
-    <button class="btn btn-sm btn-outline-primary" type="button" onclick="showContribView('year')">
+    <button
+      id="contrib-btn-year"
+      class="btn btn-sm btn-primary"
+      type="button"
+      aria-pressed="true"
+      onclick="showContribView('year')"
+    >
       By Year
     </button>
-    <button class="btn btn-sm btn-outline-primary" type="button" onclick="showContribView('pg')">
+    <button
+      id="contrib-btn-pg"
+      class="btn btn-sm btn-outline-primary"
+      type="button"
+      aria-pressed="false"
+      onclick="showContribView('pg')"
+    >
       By Version
     </button>
   </div>
@@ -109,6 +121,70 @@ layout: page
   <!-- ================================= -->
   <!-- View 2: Group by PostgreSQL Version -->
   <!-- ================================= -->
+  <style>
+    #contrib-view-pg .version-group {
+      margin-bottom: 2rem;
+    }
+
+    #contrib-view-pg .version-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.25rem;
+    }
+
+    #contrib-view-pg .version-heading::after {
+      height: 1px;
+      flex: 1;
+      content: "";
+      background-color: var(--main-border-color);
+    }
+
+    #archives #contrib-view-pg .version-list {
+      margin: 0;
+      padding-left: 1rem;
+      border-left: 3px solid var(--link-color);
+    }
+
+    #archives #contrib-view-pg .version-list li {
+      display: grid;
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      gap: 1rem;
+      align-items: baseline;
+      padding: 0.65rem 0.75rem;
+      line-height: 1.5;
+      background: transparent;
+    }
+
+    #archives #contrib-view-pg .version-list li:nth-child(odd) {
+      border-radius: 0.4rem;
+      background: var(--card-bg);
+    }
+
+    #archives #contrib-view-pg .version-list li::before,
+    #archives #contrib-view-pg .version-list a::before {
+      display: none;
+      content: none;
+    }
+
+    #archives #contrib-view-pg .version-list a {
+      top: 0;
+      margin-left: 0;
+    }
+
+    #contrib-view-pg .version-date {
+      white-space: nowrap;
+    }
+
+    @media (max-width: 576px) {
+      #archives #contrib-view-pg .version-list li {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+    }
+  </style>
+
   <div id="contrib-view-pg" style="display:none;">
 
     <h2>Patches Authored</h2>
@@ -122,26 +198,26 @@ layout: page
       {% assign versions = versions | uniq | sort | reverse %}
 
       {% for v in versions %}
-        <time class="year lead d-block">   v_{{ v }}</time>
-        <ul class="list-unstyled">
-          {% for post in authored_posts %}
-            {% if post.pg_version == v %}
-              <li>
-                {% assign ts = post.date | date: '%s' %}
-                <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
-                <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
-                  {{ post.date | date: df_strftime_m }}
-                </span>
+        <section class="version-group">
+          <h3 class="version-heading">PostgreSQL {{ v }}</h3>
+          <ul class="version-list list-unstyled">
+            {% for post in authored_posts %}
+              {% if post.pg_version == v %}
+                <li>
+                  <time class="version-date small text-muted" datetime="{{ post.date | date_to_xmlschema }}">
+                    {{ post.date | date: '%b %d, %Y' }}
+                  </time>
 
-                {% if post.commiturl %}
-                  <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
-                {% else %}
-                  {{ post.title }}
-                {% endif %}
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+                  {% if post.commiturl %}
+                    <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
+                  {% else %}
+                    <span>{{ post.title }}</span>
+                  {% endif %}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </section>
       {% endfor %}
     </div>
 
@@ -156,26 +232,26 @@ layout: page
       {% assign versions = versions | uniq | sort | reverse %}
 
       {% for v in versions %}
-        <time class="year lead d-block">v_{{ v }}</time>
-        <ul class="list-unstyled">
-          {% for post in reviewed_posts %}
-            {% if post.pg_version == v %}
-              <li>
-                {% assign ts = post.date | date: '%s' %}
-                <span class="date day" data-ts="{{ ts }}" data-df="DD">{{ post.date | date: '%d' }}</span>
-                <span class="date month small text-muted ms-1" data-ts="{{ ts }}" data-df="{{ df_dayjs_m }}">
-                  {{ post.date | date: df_strftime_m }}
-                </span>
+        <section class="version-group">
+          <h3 class="version-heading">PostgreSQL {{ v }}</h3>
+          <ul class="version-list list-unstyled">
+            {% for post in reviewed_posts %}
+              {% if post.pg_version == v %}
+                <li>
+                  <time class="version-date small text-muted" datetime="{{ post.date | date_to_xmlschema }}">
+                    {{ post.date | date: '%b %d, %Y' }}
+                  </time>
 
-                {% if post.commiturl %}
-                  <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
-                {% else %}
-                  {{ post.title }}
-                {% endif %}
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+                  {% if post.commiturl %}
+                    <a href="{{ post.commiturl }}" target="_blank" rel="noopener">{{ post.title }}</a>
+                  {% else %}
+                    <span>{{ post.title }}</span>
+                  {% endif %}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </section>
       {% endfor %}
     </div>
 
@@ -185,7 +261,19 @@ layout: page
 
 <script>
   function showContribView(which) {
-    document.getElementById('contrib-view-year').style.display = (which === 'year') ? 'block' : 'none';
-    document.getElementById('contrib-view-pg').style.display = (which === 'pg') ? 'block' : 'none';
+    const showYear = which === 'year';
+    const yearButton = document.getElementById('contrib-btn-year');
+    const versionButton = document.getElementById('contrib-btn-pg');
+
+    document.getElementById('contrib-view-year').style.display = showYear ? 'block' : 'none';
+    document.getElementById('contrib-view-pg').style.display = showYear ? 'none' : 'block';
+
+    yearButton.classList.toggle('btn-primary', showYear);
+    yearButton.classList.toggle('btn-outline-primary', !showYear);
+    yearButton.setAttribute('aria-pressed', showYear);
+
+    versionButton.classList.toggle('btn-primary', !showYear);
+    versionButton.classList.toggle('btn-outline-primary', showYear);
+    versionButton.setAttribute('aria-pressed', !showYear);
   }
 </script>
