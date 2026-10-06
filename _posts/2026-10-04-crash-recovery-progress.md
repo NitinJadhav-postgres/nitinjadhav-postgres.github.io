@@ -27,9 +27,9 @@ By comparing the reported LSNs over time, we can investigate four practical ques
 - **Health:** Is recovery slow or stalled?
 - **Completion:** Can we calculate a completion percentage or estimate when the database will become available?
 
-During a long-running startup, PostgreSQL can periodically report the current WAL replay position. This lets us measure recovery movement and replay throughput, but it does not necessarily tell us how much work remains.
+During a long-running startup, PostgreSQL can periodically report the current WAL replay position. This lets us measure recovery movement and replay throughput.
 
-This is the first in a series exploring how to measure PostgreSQL recovery progress using information available today. The series covers crash recovery, archive recovery—including point-in-time recovery—and standby recovery using WAL available in `pg_wal`, restored from a WAL archive, or received through streaming replication. PostgreSQL does not currently provide a recovery ETA; a later post will examine what can and cannot be estimated from these signals.
+This is the first in a series exploring how to measure PostgreSQL recovery progress using information available today. The series covers crash recovery, archive recovery—including point-in-time recovery—and standby recovery using WAL available in `pg_wal`, restored from a WAL archive, or received through streaming replication. A later post will examine what can and cannot be estimated from these signals.
 
 ## What happens during crash recovery?
 
